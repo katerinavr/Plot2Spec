@@ -92,7 +92,7 @@ class TickDetector():
         return boxes, polys, ret_score_text
     
     
-    def load_model(self, cuda=True, refine=True, **kwargs):
+    def load_model(self, cuda=False, refine=True, **kwargs):
         trained_model = kwargs.get("trained_model", None)
         refiner_model = kwargs.get("refiner_model", None)
         

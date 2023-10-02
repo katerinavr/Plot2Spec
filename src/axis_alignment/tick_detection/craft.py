@@ -7,8 +7,23 @@ MIT License
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import torch.nn.init as init
 from .basenet.vgg16_bn import vgg16_bn, init_weights
+
+# from torchvision.models.vgg import vgg16_bn
+
+def init_weights(modules):
+    for m in modules:
+        if isinstance(m, nn.Conv2d):
+            init.xavier_uniform_(m.weight.data)
+            if m.bias is not None:
+                m.bias.data.zero_()
+        elif isinstance(m, nn.BatchNorm2d):
+            m.weight.data.fill_(1)
+            m.bias.data.zero_()
+        elif isinstance(m, nn.Linear):
+            m.weight.data.normal_(0, 0.01)
+            m.bias.data.zero_()
 
 class double_conv(nn.Module):
     def __init__(self, in_ch, mid_ch, out_ch):
@@ -28,7 +43,7 @@ class double_conv(nn.Module):
 
 
 class CRAFT(nn.Module):
-    def __init__(self, pretrained=False, freeze=False):
+    def __init__(self, pretrained=True, freeze=False):
         super(CRAFT, self).__init__()
 
         """ Base network """
@@ -80,6 +95,6 @@ class CRAFT(nn.Module):
         return y.permute(0,2,3,1), feature
 
 if __name__ == '__main__':
-    model = CRAFT(pretrained=True).cuda()
-    output, _ = model(torch.randn(1, 3, 768, 768).cuda())
+    model = CRAFT(pretrained=True)#.cuda()
+    output, _ = model(torch.randn(1, 3, 768, 768)) #.cuda()
     print(output.shape)

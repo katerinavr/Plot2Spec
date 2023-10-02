@@ -100,7 +100,7 @@ class Cluster:
         ym = torch.linspace(0, 1, 1024).view(1, -1, 1).expand(1, 1024, 2048)
         xym = torch.cat((xm, ym), 0)
 
-        self.xym = xym.cuda()
+        self.xym = xym#.cuda()
 
     def cluster_with_gt(self, prediction, instance, n_sigma=1,):
 
@@ -111,7 +111,7 @@ class Cluster:
         spatial_emb = torch.tanh(prediction[0:2]) + xym_s  # 2 x h x w
         sigma = prediction[2:2+n_sigma]  # n_sigma x h x w
     
-        instance_map = torch.zeros(height, width).byte().cuda()
+        instance_map = torch.zeros(height, width).byte()#.cuda()
     
         unique_instances = instance.unique()
         unique_instances = unique_instances[unique_instances != 0]
@@ -154,8 +154,8 @@ class Cluster:
             sigma_masked = sigma[mask.expand_as(sigma)].view(n_sigma, -1)
             seed_map_masked = seed_map[mask].view(1, -1)
 
-            unclustered = torch.ones(mask.sum()).byte().cuda()
-            instance_map_masked = torch.zeros(mask.sum()).byte().cuda()
+            unclustered = torch.ones(mask.sum()).byte()#.cuda()
+            instance_map_masked = torch.zeros(mask.sum()).byte()#.cuda()
 
             while(unclustered.sum() > 128):
 

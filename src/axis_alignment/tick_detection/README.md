@@ -17,6 +17,15 @@ PyTorch implementation for CRAFT text detector that effectively detect text area
 **20 Jul, 2019**: Added post-processing for polygon result
 **28 Sep, 2019**: Added the trained model on IC15 and the link refiner
 
+## v1.1
+conda create -n plot2spectra python=3.9
+conda activate plot2spectra
+pip install cython==0.29.33
+pip install numpy
+pip install mmdet==2.11.0
+pip install torch torchvision torchaudio
+pip install mmcv==1.4.0
+pip install distinctipy tqdm scikit-learn scikit-image scipy
 
 ## Getting started
 ### Install dependencies

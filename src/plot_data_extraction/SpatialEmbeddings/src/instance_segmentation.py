@@ -1,6 +1,6 @@
 import torch
 from PIL import Image
-
+from multiprocessing import freeze_support
 from .utils.utils import Cluster
 from .models import get_model
 from .datasets import get_dataset
@@ -37,7 +37,7 @@ class InstanceSeg():
         test_loader = torch.utils.data.DataLoader(dataset, 
                                                   batch_size=1, 
                                                   shuffle=False, 
-                                                  num_workers=6, 
+                                                  num_workers=0, 
                                                   pin_memory=True if opt['cuda'] else False)
         self.test_loader = list(test_loader)
         
@@ -58,6 +58,15 @@ class InstanceSeg():
         model = torch.nn.DataParallel(model).to(device)
         
         print('Resuming model from {}'.format(opt['checkpoint_path']))
-        state = torch.load(opt['checkpoint_path'])
+        state = torch.load(opt['checkpoint_path'], map_location=torch.device('cpu'))
         model.load_state_dict(state['model_state_dict'], strict=True)
         self.model = model
+
+
+def main():
+    obj = InstanceSeg()  # The class that has load_data method
+    obj.load_data()
+
+if __name__ == '__main__':
+    freeze_support()
+    main()
