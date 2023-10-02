@@ -25,15 +25,16 @@ pip install distinctipy==1.1.5 tqdm==4.59.0 scikit-learn==0.24.1 scikit-image==0
 ```
 
 ## v1.1
+```
 conda create -n plot2spectra python=3.9
 conda activate plot2spectra
 pip install cython==0.29.33
 pip install numpy
 pip install mmdet==2.11.0
 pip install torch torchvision torchaudio
-pip install mmcv==1.4.0
+pip install mmcv-full==1.3.4
 pip install distinctipy tqdm scikit-learn scikit-image scipy
-
+```
 
 ## v1.0
 
